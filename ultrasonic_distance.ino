@@ -4,7 +4,14 @@
 #define TRIGGER 7
 #define ECHO 6
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+/*
+Änderungen bei Verkabelung:
+12 -> 8
+11 -> 9
+4  -> 10
+*/
+
+LiquidCrystal lcd(8, 9, 5, 10, 3, 2);
 
 int duration = 0;
 int distance = 0;
@@ -55,7 +62,7 @@ void loop() {
     Serial.println("cm");
   }
 
-  delay(100);
+  delay(200);
 }
 
 void printTimeString(int col, int row) {
