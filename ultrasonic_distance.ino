@@ -1,26 +1,16 @@
-#include <LiquidCrystal.h>
 #include <TimeLib.h>
+#include <SoftwareSerial.h>
 
 #define TRIGGER 7
 #define ECHO 6
 
-/*
-Änderungen bei Verkabelung:
-12 -> 8
-11 -> 9
-4  -> 10
-*/
+#define ESP8266_BAUD_RATE 115200
 
-LiquidCrystal lcd(8, 9, 5, 10, 3, 2);
-
-int duration = 0;
-int distance = 0;
-int litre = 0;
+SoftwareSerial ESPserial(2, 3); // RX, TX (arduino)
 
 void setup() {
-  lcd.begin(16, 2);
-  
   Serial.begin(9600);
+  ESPserial.begin(ESP8266_BAUD_RATE);
 
   pinMode(TRIGGER, OUTPUT);
   pinMode(ECHO, INPUT);
@@ -29,6 +19,11 @@ void setup() {
 }
 
 void loop() {
+  int duration = 0;
+  int distance = 0;
+  int litre = 0;
+  char timestamp[18];
+
   digitalWrite(TRIGGER, LOW);
 
   delay(5);
@@ -44,47 +39,48 @@ void loop() {
     Serial.println("Kein Messwert");
   }
   else {
-    lcd.setCursor(0, 0);
-
-    lcd.print(distance);
-    lcd.print("cm");
-
-    printTimeString(0, 1);
-
     litre = map(distance, 10, 160, 10000, 0);
+    getTimestamp(timestamp);
 
-    lcd.setCursor(10, 0);
-    
-    lcd.print(litre);
-    lcd.print("l");
-    
     Serial.print(distance);
     Serial.println("cm");
+
+    sendDataToEsp8266(timestamp, distance, litre);
   }
 
-  delay(200);
+  delay(5000);
 }
 
-void printTimeString(int col, int row) {
-  char yearShort[] = "00";
+void sendDataToEsp8266(char timestamp[], int distance, int litre) {
+  ESPserial.print(timestamp);
+  ESPserial.print(";");
+  ESPserial.print(distance);
+  ESPserial.print(";");
+  ESPserial.print(litre);
+  ESPserial.print("\0");
+}
+
+void getTimestamp(char* timestamp) {
+//timestamp = "00.00.00 00:00:00";
 
   time_t t = now(); // store the current time in time variable t
 
-  yearShort[0] = ((year(t) / 10) % 10) + '0';
-  yearShort[1] = (year(t) % 10) + '0';
-
-  lcd.setCursor(col, row);
-
-  lcd.print(hour(t));          // returns the hour for the given time t
-  lcd.print(":");
-  lcd.print(minute(t));        // returns the minute for the given time t
-  lcd.print(":");
-  lcd.print(second(t));        // returns the second for the given time t
-  lcd.print(" ");
-  lcd.print(day(t));           // the day for the given time t
-  weekday(t);       // day of the week for the given time t
-  lcd.print(".");
-  lcd.print(month(t));         // the month for the given time t
-  lcd.print(".");
-  lcd.print(yearShort);          // the year for the given time t
+  timestamp[0] = (day(t) / 10) + '0';
+  timestamp[1] = (day(t) % 10) + '0';
+//timestamp[2] = ".";
+  timestamp[3] = (month(t) / 10) + '0';
+  timestamp[4] = (month(t) % 10) + '0';
+//timestamp[5] = ".";
+  timestamp[6] = ((year(t) / 10) % 10) + '0';
+  timestamp[7] = (year(t) % 10) + '0';
+//timestamp[8] = " ";
+  timestamp[9] = (hour(t) / 10) + '0';
+  timestamp[10] = (hour(t) % 10) + '0';
+//timestamp[11] = ":";
+  timestamp[12] = (minute(t) / 10) + '0';
+  timestamp[13] = (minute(t) % 10) + '0';
+//timestamp[14] = ":";
+  timestamp[15] = (second(t) / 10) + '0';
+  timestamp[16] = (second(t) % 10) + '0';
+  timestamp[17] = '\0';
 }
