@@ -1,4 +1,4 @@
-# oil-measurement
+# Projekt für Ölstand-Messung
 
 ## Verkabelung
 | Ultraschall Sensor | D1 mini | SD Modul |
