@@ -40,7 +40,7 @@ Das Event wird mit einem `GET` ausgelöst und die Werte werden wie folgt befüll
 |     value3     |           Berechnetes Volumen in Liter          |
 
 ### Nötige Einstellungen im Programmcode
-Einstellungen können im Programmcode über `#define` gemacht werden.  
+#### Einstellungen über `#define`
 Nötige Einstellungen:
 * `WIFI_SSID`: für WLAN-Verbindung (Zeitsynchronisierung, Daten an Server und IFTTT senden)
 * `WIFI_PW`: für WLAN-Verbindung (Zeitsynchronisierung, Daten an Server und IFTTT senden)
@@ -54,4 +54,17 @@ Nötige Einstellungen:
 * `VOLUME_AT_MIN_DISTANCE`: Volumen des Öls im Tank (in Liter) wenn Tank voll ist (also bei `MIN_DISTANCE`)
 * `VOLUME_AT_MAX_DISTANCE`: Volumen des Öls im Tank (in Liter) wenn Tank leer ist (also bei `MAX_DISTANCE`)
 
+#### Einstellungen direkt im Programmcode
+Der Auslösezeitpunkt für die Messungen und Aktionen muss manuell programmiert werden.  
+Die relevante Stelle ist in der loop()-Funktion in Zeile ~83.  
+Ausschnitt:
+```
+  int currTime = now();
+  if (prevTime != 0) {
+    int prevMin = day(prevTime);
+    int currMin = day(currTime);
 
+    if (prevMin != currMin) {
+      // Stuff happens here...
+    }
+```
