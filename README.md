@@ -37,4 +37,4 @@ Das Event wird mit einem `GET` ausgelöst und die Werte werden wie folgt befüll
 |:--------------:|:-----------------------------------------------:|
 |     value1     |  Zeitstempel im Format `DD.MM.YYYY%20HH:mm:ss`  |
 |     value2     | Gemessene Distanz des Ultraschall-Sensors in cm |
-|     value3     |             Berechnetes Volumen in l            |
+|     value3     |           Berechnetes Volumen in Liter          |
