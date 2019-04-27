@@ -38,3 +38,20 @@ Das Event wird mit einem `GET` ausgelöst und die Werte werden wie folgt befüll
 |     value1     |  Zeitstempel im Format `DD.MM.YYYY%20HH:mm:ss`  |
 |     value2     | Gemessene Distanz des Ultraschall-Sensors in cm |
 |     value3     |           Berechnetes Volumen in Liter          |
+
+### Nötige Einstellungen im Programmcode
+Einstellungen können im Programmcode über `#define` gemacht werden.  
+Nötige Einstellungen:
+* `WIFI_SSID`: für WLAN-Verbindung (Zeitsynchronisierung, Daten an Server und IFTTT senden)
+* `WIFI_PW`: für WLAN-Verbindung (Zeitsynchronisierung, Daten an Server und IFTTT senden)
+* `GATEWAY`: für WLAN-Verbindung (Zeitsynchronisierung, Daten an Server und IFTTT senden)
+* `SUBNET`: für WLAN-Verbindung (Zeitsynchronisierung, Daten an Server und IFTTT senden)
+* `IFTTT_ID`: ID vom IFTTT Service für Events
+* `IFTTT_EVENT`: Eventname vom IFTTT Service
+* `ADD_DATA_URL`: URL um Daten an Server zu senden (siehe [App-Server](App-Server))
+* `MIN_DISTANCE`: Kleinste Distanz von Öloberfläche zu Ultraschallsensor (wenn Tank voll ist)
+* `MAX_DISTANCE`: Größte Distanz von Öloberfläche zu Ultraschallsensor (wenn Tank leer ist)
+* `VOLUME_AT_MIN_DISTANCE`: Volumen des Öls im Tank (in Liter) wenn Tank voll ist (also bei `MIN_DISTANCE`)
+* `VOLUME_AT_MAX_DISTANCE`: Volumen des Öls im Tank (in Liter) wenn Tank leer ist (also bei `MAX_DISTANCE`)
+
+
