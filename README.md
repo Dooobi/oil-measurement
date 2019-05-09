@@ -22,7 +22,7 @@
 
 ### App-Server
 Wenn Daten an einen eigenen Server gesendet werden sollen, muss dieser aufgesetzt und gestartet werden.  
-Ein fertiger Node.js-Server mitsamt UI5-App befindet sich im Repository `https://github.com/Dooobi/oil-measurement-server`.
+Ein fertiger Node.js-Server mitsamt UI5-App befindet sich im Repository https://github.com/Dooobi/oil-measurement-server.
 Die URL, wohin die Daten gesendet werden wird über ein `#define` im Programmcode eingetragen.  
 Die Variablen `{timestamp}`, `{distance}` und `{volume}` können an den Stellen verwendet werden, wo die Daten eingefügt werden sollen.  
 Beispiel (für den fertigen Node.js-Server):  
